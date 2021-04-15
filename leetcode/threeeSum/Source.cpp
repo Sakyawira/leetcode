@@ -17,8 +17,17 @@ public:
 		// key is complement
 		// value is index that contains it
 		std::set<int> complementIds;
+		int index = 0;
 		for (int num : nums)
 		{
+			if (index != 0)
+			{
+				if (nums[index] == nums[(index - 1)]) {
+					index++;
+					continue;
+				}
+			}
+			index++;
 			int complement = target - num;
 			auto answer = complementIds.find(complement);
 			if (answer == complementIds.end())
@@ -36,13 +45,20 @@ public:
 		if (nums.size() < 3) {
 			return std::vector<std::vector<int>>();
 		}
-		// sort(nums.begin(), nums.end());
+		sort(nums.begin(), nums.end());
 		// key is compliment
 		// value is a vector of a vector of the two sums forming the compliments
 		std::map<int, std::set<std::vector<int>>> twoSums;
 		int index = 0;
 		for (int num : nums)
 		{
+			if (index != 0) 
+			{
+				if (nums[index] == nums[(index - 1)]) {
+					index++;
+					continue;
+				}
+			}
 			int compliment = 0 - num;
 			auto answer = twoSums.find(compliment);
 			if (answer == twoSums.end())
