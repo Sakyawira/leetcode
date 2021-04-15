@@ -16,21 +16,17 @@ public:
 		std::set<std::vector<int>> answers;
 		// key is complement
 		// value is index that contains it
-		std::map<int, int> complementIds;
-		int index = 0;
+		std::set<int> complementIds;
 		for (int num : nums)
 		{
 			int complement = target - num;
 			auto answer = complementIds.find(complement);
 			if (answer == complementIds.end())
 			{
-				complementIds.insert(std::pair<int, int>(num, index));
+				complementIds.insert(num);
+				continue;
 			}
-			else
-			{
-				insertUnique({ answer->first, num }, answers);
-			}
-			index++;
+			insertUnique({ *answer, num }, answers);
 		}
 		twoSums.insert(std::pair<int, std::set<std::vector<int>>>(target, answers));
 	}
@@ -64,14 +60,13 @@ public:
 						insertUnique(complimentFormer, answers);
 					}
 				}
+				index++;
+				continue;
 			}
-			else
+			for (auto iAnswer : answer->second)
 			{
-				for (auto iAnswer : answer->second)
-				{
-					iAnswer.push_back(num);
-					insertUnique(iAnswer, answers);
-				}
+				iAnswer.push_back(num);
+				insertUnique(iAnswer, answers);
 			}
 			index++;
 		}
