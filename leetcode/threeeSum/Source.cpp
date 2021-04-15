@@ -5,6 +5,14 @@
 class Solution {
 public:
 
+	void insertUnique(std::vector<int> input, std::vector<std::vector<int>>& container) {
+		// whether we can find the two sums in the vector of vector
+		sort(input.begin(), input.end());
+		if (find(container.begin(), container.end(), input) == container.end()) {
+			container.push_back(input);
+		}
+	}
+
 	std::vector<std::vector<int>> twoSum(std::vector<int>& nums, int target) {
 		std::vector<std::vector<int>> answers;
 		// key is complement
@@ -22,12 +30,7 @@ public:
 			}
 			else
 			{
-				// whether we can find the two sums in the vector of vector
-				std::vector<int> ivec = { answer->first, num };
-				sort(ivec.begin(), ivec.end());
-				if (find(answers.begin(), answers.end(), ivec) == answers.end()) {
-					answers.push_back(ivec);
-				}
+				insertUnique({ answer->first, num }, answers);
 			}
 			index++;
 		}
@@ -59,11 +62,7 @@ public:
 					if (complimentFormer.size() > 0)
 					{
 						complimentFormer.push_back(num);
-						sort(complimentFormer.begin(), complimentFormer.end());
-						if (find(answers.begin(), answers.end(), complimentFormer) == answers.end())
-						{
-							answers.push_back(complimentFormer);
-						}
+						insertUnique(complimentFormer, answers);
 					}
 				}
 			}
@@ -73,11 +72,7 @@ public:
 				for (auto iAnswer : iAnswers)
 				{
 					iAnswer.push_back(num);
-					sort(iAnswer.begin(), iAnswer.end());
-					if (find(answers.begin(), answers.end(), iAnswer) == answers.end())
-					{
-						answers.push_back(iAnswer);
-					}
+					insertUnique(iAnswer, answers);
 				}
 			}
 			index++;
