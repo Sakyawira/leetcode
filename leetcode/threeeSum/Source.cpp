@@ -1,20 +1,19 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <set>
 #include<algorithm>
 class Solution {
 public:
 
-	void insertUnique(std::vector<int> input, std::vector<std::vector<int>>& container) {
+	void insertUnique(std::vector<int> input, std::set<std::vector<int>>& container) {
 		// whether we can find the two sums in the vector of vector
 		sort(input.begin(), input.end());
-		if (find(container.begin(), container.end(), input) == container.end()) {
-			container.push_back(input);
-		}
+		container.insert(input);
 	}
 
-	std::vector<std::vector<int>> twoSum(std::vector<int>& nums, int target) {
-		std::vector<std::vector<int>> answers;
+	std::set<std::vector<int>> twoSum(std::vector<int>& nums, int target) {
+		std::set<std::vector<int>> answers;
 		// key is complement
 		// value is index that contains it
 		std::map<int, int> complementIds;
@@ -38,14 +37,14 @@ public:
 	}
 
 	std::vector<std::vector<int>> threeSum(std::vector<int>&& nums) {
-		std::vector<std::vector<int>> answers;
+		std::set<std::vector<int>> answers;
 		if (nums.size() < 3) {
-			return answers;
+			return std::vector<std::vector<int>>();
 		}
 		// sort(nums.begin(), nums.end());
 		// key is compliment
 		// value is a vector of a vector of the two sums forming the compliments
-		std::map<int, std::vector<std::vector<int>>> twoSums;
+		std::map<int, std::set<std::vector<int>>> twoSums;
 		int index = 0;
 		for (int num : nums)
 		{
@@ -55,8 +54,8 @@ public:
 			{
 				std::vector<int> withoutCurrentNum = nums;
 				withoutCurrentNum.erase(withoutCurrentNum.begin() + index);
-				std::vector<std::vector<int>> complimentFormers = twoSum(withoutCurrentNum, compliment);
-				twoSums.insert(std::pair<int, std::vector<std::vector<int>>>(compliment, complimentFormers));
+				std::set<std::vector<int>> complimentFormers = twoSum(withoutCurrentNum, compliment);
+				twoSums.insert(std::pair<int, std::set<std::vector<int>>>(compliment, complimentFormers));
 
 				for (auto complimentFormer : complimentFormers) {
 					if (complimentFormer.size() > 0)
@@ -68,7 +67,7 @@ public:
 			}
 			else
 			{
-				std::vector<std::vector<int>> iAnswers = answer->second;
+				std::set<std::vector<int>> iAnswers = answer->second;
 				for (auto iAnswer : iAnswers)
 				{
 					iAnswer.push_back(num);
@@ -84,7 +83,7 @@ public:
 			}
 			std::cout << std::endl;
 		}
-		return answers;
+		return std::vector<std::vector<int>>(answers.begin(), answers.end());
 	}
 };
 
