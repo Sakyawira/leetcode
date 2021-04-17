@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <unordered_set>
 #include<algorithm>
 class Solution {
 public:
@@ -12,10 +13,9 @@ public:
 		container.insert(input);
 	}
 
-	void twoSum(std::vector<int>& nums, int target, std::map<int, std::set<std::vector<int>>>& twoSums) {
-		std::set<std::vector<int>> answers;
+		std::set<std::vector<int>> twoSum(std::vector<int>& nums, int target/*, std::map<int, std::set<std::vector<int>>>& twoSums*/) {
+		std::set<std::vector<int>> possibleTwoSums;
 		// key is complement
-		// value is index that contains it
 		std::set<int> complementIds;
 		int index = 0;
 		for (int num : nums)
@@ -35,66 +35,89 @@ public:
 				complementIds.insert(num);
 				continue;
 			}
-			insertUnique({ *answer, num }, answers);
+			insertUnique({ *answer, num }, possibleTwoSums);
 		}
-		twoSums.insert(std::pair<int, std::set<std::vector<int>>>(target, answers));
+		return possibleTwoSums;
+		// twoSums.insert(std::pair<int, std::set<std::vector<int>>>(target, answers));
 	}
 
-	std::vector<std::vector<int>> threeSum(std::vector<int>&& nums) {
-		std::set<std::vector<int>> answers;
-		if (nums.size() < 3) {
-			return std::vector<std::vector<int>>();
-		}
-		sort(nums.begin(), nums.end());
-		// key is compliment
-		// value is a vector of a vector of the two sums forming the compliments
-		std::map<int, std::set<std::vector<int>>> twoSums;
-		int index = 0;
-		for (int num : nums)
-		{
-			if (index != 0) 
-			{
-				if (nums[index] == nums[(index - 1)]) {
-					index++;
-					continue;
-				}
-			}
-			int compliment = 0 - num;
-			auto answer = twoSums.find(compliment);
-			if (answer == twoSums.end())
-			{
-				std::vector<int> withoutCurrentNum = nums;
-				withoutCurrentNum.erase(withoutCurrentNum.begin() + index);
-				// adding the two sum to the list of two sums
-				twoSum(withoutCurrentNum, compliment, twoSums);
+	//std::vector<std::vector<int>> threeSum(std::vector<int>&& nums) {
+	//	std::set<std::vector<int>> answers;
+	//	if (nums.size() < 3) {
+	//		return std::vector<std::vector<int>>();
+	//	}
+	//	sort(nums.begin(), nums.end());
+	//	// key is compliment
+	//	// value is a vector of a vector of the two sums forming the compliments
+	//	std::map<int, std::set<std::vector<int>>> twoSums;
+	//	int index = 0;
+	//	for (int num : nums)
+	//	{
+	//		if (index != 0) 
+	//		{
+	//			if (nums[index] == nums[(index - 1)]) {
+	//				index++;
+	//				continue;
+	//			}
+	//		}
+	//		int compliment = 0 - num;
+	//		auto answer = twoSums.find(compliment);
+	//		if (answer == twoSums.end())
+	//		{
+	//			std::vector<int> withoutCurrentNum = nums;
+	//			withoutCurrentNum.erase(withoutCurrentNum.begin() + index);
+	//			// adding the two sum to the list of two sums
+	//			twoSum(withoutCurrentNum, compliment, twoSums);
 
-				// adding the two sums to the list of answers
-				for (auto complimentFormer : twoSums.at(compliment)) {
-					if (complimentFormer.size() > 0)
-					{
-						complimentFormer.push_back(num);
-						insertUnique(complimentFormer, answers);
-					}
-				}
-				index++;
-				continue;
-			}
-			for (auto iAnswer : answer->second)
-			{
-				iAnswer.push_back(num);
-				insertUnique(iAnswer, answers);
-			}
+	//			// adding the two sums to the list of answers
+	//			for (auto complimentFormer : twoSums.at(compliment)) {
+	//				if (complimentFormer.size() > 0)
+	//				{
+	//					complimentFormer.push_back(num);
+	//					insertUnique(complimentFormer, answers);
+	//				}
+	//			}
+	//			index++;
+	//			continue;
+	//		}
+	//		for (auto iAnswer : answer->second)
+	//		{
+	//			iAnswer.push_back(num);
+	//			insertUnique(iAnswer, answers);
+	//		}
+	//		index++;
+	//	}
+
+	//	for (std::vector<int> w : answers) {
+	//		for (int s : w) {
+	//			std::cout << s << ", ";
+	//		}
+	//		std::cout << std::endl;
+	//	}
+	//	return std::vector<std::vector<int>>(answers.begin(), answers.end());
+	//}
+
+
+	
+	std::vector<std::vector<int>> threeSum(std::vector<int>&& nums) {
+		// Find all compliments that needs two sums calculated
+		std::map<int, std::set<std::vector<int>>> compliments;
+		for (auto num : nums) {
+			compliments.insert(0 - num, NULL);
+		}
+		int index = 0;
+		for (int compliment : compliments.key_comp) {
+			std::vector<int> withoutCurrentNum = nums;
+			withoutCurrentNum.erase(withoutCurrentNum.begin() + index);
+			// Find the two sum, but not including this number
+			twoSum(withoutCurrentNum, compliment);
 			index++;
 		}
+		// Calculate the two sums of those
 
-		for (std::vector<int> w : answers) {
-			for (int s : w) {
-				std::cout << s << ", ";
-			}
-			std::cout << std::endl;
-		}
-		return std::vector<std::vector<int>>(answers.begin(), answers.end());
+
 	}
+
 };
 
 /***********************
