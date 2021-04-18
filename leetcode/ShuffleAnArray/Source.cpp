@@ -11,34 +11,36 @@ public:
     Solution(std::vector<int>& nums) {
         srand(time(NULL));
         originalVector.clear();
-        inputVector.clear();
         originalVector = nums;
-        inputVector = originalVector;
     }
 
     /** Resets the array to its original configuration and return it. */
     std::vector<int> reset() {
-        inputVector = originalVector;
-        return inputVector;
+        return originalVector;
     }
 
     /** Returns a random shuffling of the array. */
     std::vector<int> shuffle() { 
-        reset();
-        std::vector<int> newRandom;
-        while (inputVector.size() > 0) {
-            // Pick a number from 1 - size of of randomVector
-            int randomIndex = rand() % inputVector.size();
-            // Get the number on that index from the input vector and push it to the new vector
-            newRandom.push_back(inputVector[randomIndex]);
-            // Deallocated the number on the same index from the input vector
-            inputVector.erase(inputVector.begin() + randomIndex);
+        // Keep the size of the original vector so we do not need to get it everytime
+        int originalSize = originalVector.size();
+        // Pre-allocate the vector
+        std::vector<int> newRandom(originalSize);
+
+        // A helper vector so that we do not need to reset the original vector everytime
+        std::vector<int> toRandomised = originalVector;
+
+        for (int i = 0; i < originalSize; i++) {
+            // Pick a number from 1 - current size of of the helper vector (after deallocated in the previous loop)
+            int randomIndex = rand() % (originalSize - i);
+            // Get the number on that index from the helper vector and push it to the new vector
+            newRandom[i] = (toRandomised[randomIndex]);
+            // Deallocated the index from the helper vector
+            toRandomised.erase(toRandomised.begin() + randomIndex);
         }
         return newRandom;
     }
 private:
     std::vector<int> originalVector;
-    std::vector<int> inputVector;
 };
 
 /***********************
