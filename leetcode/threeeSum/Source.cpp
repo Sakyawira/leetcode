@@ -13,7 +13,7 @@ public:
 		container.insert(input);
 	}
 
-		std::set<std::vector<int>> twoSum(std::vector<int>& nums, int target/*, std::map<int, std::set<std::vector<int>>>& twoSums*/) {
+	std::set<std::vector<int>> twoSum(std::vector<int>& nums, int target/*, std::map<int, std::set<std::vector<int>>>& twoSums*/) {
 		std::set<std::vector<int>> possibleTwoSums;
 		// key is complement
 		std::set<int> complementIds;
@@ -35,7 +35,7 @@ public:
 				complementIds.insert(num);
 				continue;
 			}
-			insertUnique({ *answer, num }, possibleTwoSums);
+			insertUnique({ *answer, num , -target}, possibleTwoSums);
 		}
 		return possibleTwoSums;
 		// twoSums.insert(std::pair<int, std::set<std::vector<int>>>(target, answers));
@@ -100,22 +100,38 @@ public:
 
 	
 	std::vector<std::vector<int>> threeSum(std::vector<int>&& nums) {
+		std::set<std::vector<int>> answer;
+
 		// Find all compliments that needs two sums calculated
 		std::map<int, std::set<std::vector<int>>> compliments;
+		std::set<std::vector<int>> tempSet;
 		for (auto num : nums) {
-			compliments.insert(0 - num, NULL);
+			compliments[0 - num] = tempSet;
 		}
 		int index = 0;
-		for (int compliment : compliments.key_comp) {
+		for (auto compliment : compliments) {
 			std::vector<int> withoutCurrentNum = nums;
 			withoutCurrentNum.erase(withoutCurrentNum.begin() + index);
 			// Find the two sum, but not including this number
-			twoSum(withoutCurrentNum, compliment);
+			compliment.second = twoSum(withoutCurrentNum, compliment.first);
+
+			//// Calculate the three sums, by assigning the compliments to each two sums vector
+			for (auto threeSum : compliment.second) {
+			//	threeSum.push_back(0-compliment.first);
+			//	// Put all the three sum vectors into a set
+			//	insertUnique(threeSum, answer);
+			answer.insert(threeSum);
+			}
 			index++;
 		}
-		// Calculate the two sums of those
-
-
+		for (std::vector<int> w : answer) {
+			for (int s : w) {
+				std::cout << s << ", ";
+			}
+			std::cout << std::endl;
+		}
+		
+		return std::vector<std::vector<int>>(answer.begin(), answer.end());
 	}
 
 };
@@ -126,7 +142,7 @@ public:
 int main(int argc, char** argv)
 {
 	Solution solution;
-	solution.threeSum({ -1,0,1,2,-1,-4,-2,-3,3,0,4 });
+	solution.threeSum({-1,0,1,2,-1,-4});
 	int input;
 	std::cin >> input;
 }
