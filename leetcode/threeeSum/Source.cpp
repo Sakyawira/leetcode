@@ -50,7 +50,7 @@ public:
 	}
 
 	std::vector<std::vector<int>> threeSum(std::vector<int>&& nums) {
-		if (nums.size() < 3) {
+		if (nums.size() < 3 || nums.size() > 3000) {
 			return std::vector<std::vector<int>>();
 		}
 		if (nums[0] == 0 && nums[1] == 0 && nums[2] == 0) {
@@ -64,6 +64,9 @@ public:
 		// Set is ordered automatically
 		std::set<std::vector<int>> tempSet;
 		for (auto num : nums) {
+			if (abs(num) > 100000 ) {
+				return std::vector<std::vector<int>>();
+			}
 			compliments[0 - num] = tempSet;
 		}
 
