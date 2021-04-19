@@ -43,9 +43,6 @@ private:
     std::vector<int> originalVector;
 };
 
-/***********************
- Description :   Loads main scene and activates loading screen
-********************/
 int main(int argc, char** argv)
 {
    
