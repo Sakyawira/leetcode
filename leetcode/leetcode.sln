@@ -10,7 +10,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HammingDistance", "HammingDistance\HammingDistance.vcxproj", "{80DB8490-4AF2-493F-87E0-E282D126443A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CompilerLearning", "CompilerLearning\CompilerLearning.vcxproj", "{16903DBF-E2CC-4123-BAF5-863E0DDDFADF}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuySellStock", "BuySellStock\BuySellStock.vcxproj", "{B6421DE0-FC58-4709-AA3A-01116B9BA3BE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Virtual", "Virtual\Virtual.vcxproj", "{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +63,14 @@ Global
 		{B6421DE0-FC58-4709-AA3A-01116B9BA3BE}.Release|x64.Build.0 = Release|x64
 		{B6421DE0-FC58-4709-AA3A-01116B9BA3BE}.Release|x86.ActiveCfg = Release|Win32
 		{B6421DE0-FC58-4709-AA3A-01116B9BA3BE}.Release|x86.Build.0 = Release|Win32
+		{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}.Debug|x64.ActiveCfg = Debug|x64
+		{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}.Debug|x64.Build.0 = Debug|x64
+		{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}.Debug|x86.ActiveCfg = Debug|Win32
+		{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}.Debug|x86.Build.0 = Debug|Win32
+		{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}.Release|x64.ActiveCfg = Release|x64
+		{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}.Release|x64.Build.0 = Release|x64
+		{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}.Release|x86.ActiveCfg = Release|Win32
+		{FF38C2D8-7E2A-4201-99E5-6D9BE206182E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
