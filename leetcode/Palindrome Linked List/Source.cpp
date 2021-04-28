@@ -14,33 +14,58 @@ struct ListNode {
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        std::vector<int> variablesList;
         // Reverse the list
-        //int size = 0;
+        // Create an array of the values
+        ListNode* originalHead = head;
+
+        // Calculate the size of the link list
+        int size = 0;
         while (head != nullptr)
         {
-            variablesList.push_back(head->val);
             head = head->next;
-            //size++;
+            size++;
         }
-        std::vector<int> reversedList = variablesList;
+        head = originalHead;
 
-        std::reverse(reversedList.begin(), reversedList.end());
+        // Create an array of all the list nodes' values
+        int* originalList = new int[size];
+        int i = 0;
+        while (i < size) {
+            originalList[i] = head->val;
+            i++;
+            head = head->next;
+        }
 
-        std::cout << variablesList.size() << std::endl;
+        // Create a reversed array of all the list nodes' values
+        int* reversedList = new int[size];
+        for (int i = 0; i < size; i++) {
+            reversedList[i] = originalList[(size - i) - 1];
+        }
 
-        for (int i = 0; i < variablesList.size(); i++) {
-            std::cout << "reversedlist = " << reversedList[i] << ", variableList = " << variablesList[i] << std::endl;
-            if (variablesList[i] != reversedList[i]) {
+        // Compare them
+        for (int i = 0; i < size; i++) {
+            std::cout << "reversedlist = " << reversedList[i] << ", variableList = " << originalList[i] << std::endl;
+            if (originalList[i] != reversedList[i]) {
+                delete[] reversedList;
+                delete[] originalList;
+                std::cout << "false" << std::endl;
                 return false;
             }
         }
+        delete[] reversedList;
+        delete[] originalList;
+        std::cout << "true" << std::endl;
         return true;
     }
 };
 
 int main() {
-    ListNode* head;
+    ListNode* nextNext = new ListNode(2);
+    ListNode* next = new ListNode(1, nextNext);
+    ListNode* head = new ListNode(2, next);
     Solution s;
     s.isPalindrome(head);
+    delete nextNext;
+    delete next;
+    delete head;
 }
