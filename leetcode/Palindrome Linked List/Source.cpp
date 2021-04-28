@@ -14,7 +14,6 @@ struct ListNode {
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        // Reverse the list
         // Create an array of the values
         ListNode* originalHead = head;
 
